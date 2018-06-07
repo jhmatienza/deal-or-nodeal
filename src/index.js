@@ -3,8 +3,8 @@ $(document).ready(function() {
   var boxContainer = $('#briefcase');
   var game = new Game(prizesContainer, boxContainer);
 
-  $('#btn-1player').click(function() {
-    $('#btn-1player').hide();
+  $('#btn-play').click(function() {
+    $('#btn-play').hide();
     game.start();
     
   });

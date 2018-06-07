@@ -4,7 +4,7 @@ function Prize(value) {
 }
 
 Prize.prototype.html = function() {
-  var $prize = $('<div></div>')
+  var $prize = $('<div id="prices-show"></div>')
     .addClass('price')
     .text(this.value + " €");
 

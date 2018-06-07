@@ -7,7 +7,7 @@ function Box(id, value, onClick) {
 
 Box.prototype.html = function() {
 
-  var $box = $('<button></button>')
+  var $box = $('<div id="briefcase"></div>')
     .addClass('box')
     .append($('<p></p>').text(this.id))
     .click(function() {
