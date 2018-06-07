@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Pantalla de inicio */
+
+.center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#start {
+  width: 1100px;
+  height: 700px;
+  background-color: black;
+  z-index: 1;
+}
+
+.dealhead-photo {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  margin-top: 40px;
+}
+
+.btn-start {
+  display: block;
+  margin: 70px auto;
+  width: 200px;
+  height: 50px;
+  background-color: yellow;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  border: 3px solid grey;
+  border-radius: 5px;
+}
+
+#main {
+  width: 1100px;
+  height: 700px;
+  background: url("../img/dealbackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Pantalla de 1 player */
+
+#player1 {
+  width: 1100px;
+  height: 700px;
+  z-index: 2;
+}
+
+.column {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: space-around;
+}
+
+.price div {
+  background: yellow;
+  width: 140px;
+  margin: 10px;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  padding: 5px 0;
+  font-size: 18px;
+}
+
+.price.selected {
+  background: grey;
+}
+
+.pricehigh div {
+  background: orange;
+}
+
+
+
+#briefcase {
+  background: black;
+}
+
+.briefcase-btn{
+  width: 80px;
+  height: 40px;
+  background-color: grey;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 5px;
+}
+
+span {
+  color: white;
+  display: none;
+}
+
+span button {
+  width: 80px;
+  height: 40px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 5px;
+}
+
+p, h2 {
+  color: white;
+}
+
+.information {
+  background-color: black;
+}
+
+.box {
+  border-radius: 4px;
+  background-color: brown;
+  padding: 40px;
+  border: 0px none;
+  margin: 5px;
+}
+
+.box p {
+  background: white;
+  border-radius: 50%;
+  padding: 10px;
+  z-index: 99;
+  color: brown
+}
