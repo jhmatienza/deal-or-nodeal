@@ -38,8 +38,9 @@ function Game(prizesContainer, boxContainer) {
   this.boxes = [];
   this.prizes = [];
 
-
   this.ownBox;
+  this.lastBoxes;
+
   this.selectedBoxesCount = 0;
   this.state = "init"; // init, => step1, step2, step3, step4
   this.chosenBox = $("#chosen-box");
@@ -52,6 +53,10 @@ function Game(prizesContainer, boxContainer) {
   this.playAgainBtn = $(".play-again-btn");
   this.openBoxesBtn = $(".open-boxes-btn");
   this.switchBtn = $(".switch-boxes-btn");
+  this.bankerPhone = $(".banker-phone");
+
+  this.bankerArray = ["Pelota", "Piruleta", "Cacahuete", "Birra"];
+  this.bankerArrayShuffled = shuffle(this.bankerArray);
 }
 
 Game.prototype.start = function() {
@@ -77,11 +82,12 @@ Game.prototype.start = function() {
 
 Game.prototype.onClicBox = function(box) {
   switch (this.state) {
-
     case "init":
       this.ownBox = box;
       this.removeBox(box);
-      this.information.empty().append($("<p></p>").text("Round 1: Open 6 briefcases!!!"))
+      this.information
+        .empty()
+        .append($("<p></p>").text("Round 1: Open 6 briefcases!!!"));
       this.chosenBox.append(
         $("<p></p>")
           .text("Your briefcase: " + this.ownBox.id)
@@ -105,15 +111,22 @@ Game.prototype.onClicBox = function(box) {
         );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
-      this.state = "step2";
-      this.selectedBoxesCount = 5;
+        this.state = "step2";
+        this.selectedBoxesCount = 5;
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
+        this.banker
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
 
-      this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
+        // this.banker
+        //   .empty()
+        //   .append("<p></p>")
+        //   .text("Banker's offer: " + this.shuffleBankerOffer(this.bankerArray));
 
-      this.playerOptions();       
+        this.playerOptions();
       }
       break;
 
@@ -132,12 +145,16 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step3";
         this.selectedBoxesCount = 4;
 
-        this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
 
-      this.playerOptions();
+        this.banker
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
       break;
 
@@ -155,12 +172,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step4";
         this.selectedBoxesCount = 3;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
 
-      this.playerOptions();
+        this.playerOptions();
       }
       break;
 
@@ -178,12 +198,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step5";
         this.selectedBoxesCount = 2;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
 
-      this.playerOptions();
+        this.playerOptions();
       }
       break;
 
@@ -202,12 +225,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step6";
         this.selectedBoxesCount = 1;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
-  
-      this.playerOptions();
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
 
       break;
@@ -226,12 +252,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step7";
         this.selectedBoxesCount = 1;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
-  
-      this.playerOptions();
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
       break;
 
@@ -249,12 +278,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step8";
         this.selectedBoxesCount = 1;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
-  
-      this.playerOptions();
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
       break;
 
@@ -272,12 +304,15 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step9";
         this.selectedBoxesCount = 1;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
-  
-      this.playerOptions();
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
       break;
 
@@ -295,19 +330,27 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step10";
         this.selectedBoxesCount = 1;
 
+        var lastsBoxes = this.boxes.map(function(box) {
+          return box.value;
+        });
         this.banker
-        .empty()
-        .append("<p></p>")
-        .text("Banker's offer: ");
-  
-      this.playerOptions();
+          .empty()
+          .append("<p></p>")
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+        this.playerOptions();
       }
-      break;
-
-      case "step10":
 
       break;
 
+    case "step10":
+
+
+        var lastBox = this.boxes.map(function(array) {
+          return array.id;
+        });
+        console.log(lastBox);
+      break;
   }
 
   this.draw();
@@ -357,22 +400,17 @@ Game.prototype.bankerOffer = function(array) {
     sumMoney += array[i];
   }
   var averageOnGameMoney = sumMoney / array.length;
-  var bankerOfferAmount = averageOnGameMoney * this.bankerMultiplier;
+  var bankerOfferAmount = Math.floor(averageOnGameMoney * this.bankerMultiplier);
 
-  if (bankerOfferAmount < 10000) {
-    bankerOfferAmount = Math.floor(bankerOfferAmount / 100) * 100;
-  } else {
-    bankerOfferAmount = Math.floor(bankerOfferAmount / 1000) * 1000;
-  }
   return bankerOfferAmount;
 };
 
-// //Función que nos devuelve un array de premios no seleccionados
-// Game.prototype.noSelectedBox = function(){
-//   for (i = 0; i < this.boxes.length; i++) {
-//     return this.boxes[i];
-//   }
-// }
+//Función que nos devuelve un array de premios no seleccionados
+Game.prototype.noSelectedBox = function() {
+  this.boxes.map(function(box) {
+    return box.value;
+  });
+};
 
 //Función pregunta banquero
 Game.prototype.bankerQuestion = function() {
@@ -385,7 +423,16 @@ Game.prototype.bankerQuestion = function() {
 Game.prototype.noDealAnswer = function() {
   this.noDealBtn.click(
     function() {
-      this.information.empty().append($('<p></p>').text('Nice! You are brave or... stupid!'));
+      this.banker.empty();
+      this.information
+        .empty()
+        .append(
+          $("<p></p>").text(
+            "Nice! Good choice or not... next round OPEN " +
+              this.selectedBoxesCount +
+              " BRIEFCASES!"
+          )
+        );
       this.boxContainer.show();
       this.dealBtn.hide();
       this.noDealBtn.hide();
@@ -424,9 +471,14 @@ Game.prototype.playerOptions = function() {
   this.playAgain();
 };
 
-Game.prototype.switchBoxes = function() {
+Game.prototype.switchBoxes = function() {};
 
-}
+Game.prototype.shuffleBankerOffer = function(array) {
+  var numberPrizes = array.length;
+  numberPrizes = Math.floor(Math.random() * array.length);
+
+  return array[numberPrizes];
+};
 
 //Función shuffle
 function shuffle(array) {
@@ -441,13 +493,3 @@ function shuffle(array) {
   }
   return array;
 }
-
-      // // this.boxes.forEach(function(box) {});
-
-      // // // for (var i = 0; i < this.boxes.length; i++) {
-      // // // this.boxes[i];
-      // // // console.log(this.boxes[i].value);
-      // // }
-      // console.log(this.boxes);
-      // console.log(this.noSelectedBox);
-      // console.log(this.bankerOffer(this.prizeValues));
