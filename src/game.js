@@ -33,8 +33,6 @@ function Game(prizesContainer, boxContainer) {
 
   this.boxesCount = 26;
 
-  this.bankerMultiplier = 0.8;
-
   this.boxes = [];
   this.prizes = [];
 
@@ -51,12 +49,8 @@ function Game(prizesContainer, boxContainer) {
   this.dealBtn = $(".deal-btn");
   this.noDealBtn = $(".no-deal-btn");
   this.playAgainBtn = $(".play-again-btn");
-  this.openBoxesBtn = $(".open-boxes-btn");
+  this.openBoxBtn = $(".open-box-btn");
   this.switchBtn = $(".switch-boxes-btn");
-  this.bankerPhone = $(".banker-phone");
-
-  this.bankerArray = ["Pelota", "Piruleta", "Cacahuete", "Birra"];
-  this.bankerArrayShuffled = shuffle(this.bankerArray);
 }
 
 Game.prototype.start = function() {
@@ -87,7 +81,8 @@ Game.prototype.onClicBox = function(box) {
       this.removeBox(box);
       this.information
         .empty()
-        .append($("<p></p>").text("Round 1: Open 6 briefcases!!!"));
+        .append($("<p></p>").text("Let's start!!! Open 6 briefcase"));
+
       this.chosenBox.append(
         $("<p></p>")
           .text("Your briefcase: " + this.ownBox.id)
@@ -116,17 +111,8 @@ Game.prototype.onClicBox = function(box) {
         var lastsBoxes = this.boxes.map(function(box) {
           return box.value;
         });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
 
-        // this.banker
-        //   .empty()
-        //   .append("<p></p>")
-        //   .text("Banker's offer: " + this.shuffleBankerOffer(this.bankerArray));
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -145,16 +131,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step3";
         this.selectedBoxesCount = 4;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -172,15 +149,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step4";
         this.selectedBoxesCount = 3;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -198,15 +167,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step5";
         this.selectedBoxesCount = 2;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -225,15 +186,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step6";
         this.selectedBoxesCount = 1;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
 
       break;
@@ -252,15 +205,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step7";
         this.selectedBoxesCount = 1;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -278,15 +223,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step8";
         this.selectedBoxesCount = 1;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -304,15 +241,7 @@ Game.prototype.onClicBox = function(box) {
         this.state = "step9";
         this.selectedBoxesCount = 1;
 
-        var lastsBoxes = this.boxes.map(function(box) {
-          return box.value;
-        });
-        this.banker
-          .empty()
-          .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
-
-        this.playerOptions();
+        this.bankerAnouncement();
       }
       break;
 
@@ -327,7 +256,6 @@ Game.prototype.onClicBox = function(box) {
       );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
-        this.state = "step10";
         this.selectedBoxesCount = 1;
 
         var lastsBoxes = this.boxes.map(function(box) {
@@ -338,18 +266,27 @@ Game.prototype.onClicBox = function(box) {
           .append("<p></p>")
           .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
 
-        this.playerOptions();
+        this.bankerQuestion();
+
+        this.dealAnswer();
+        this.playAgain();
+        this.switchBoxes();
+        this.openOwnBox();
+
+        this.noDealBtn.click(
+          function() {
+            this.banker.empty();
+            this.information
+              .empty()
+              .append($("<p></p>").text("Switch or open?"));
+            this.boxContainer.show();
+            this.switchBtn.show();
+            this.openBoxBtn.show();
+            this.dealBtn.hide();
+            this.noDealBtn.hide();
+          }.bind(this)
+        );
       }
-
-      break;
-
-    case "step10":
-
-
-        var lastBox = this.boxes.map(function(array) {
-          return array.id;
-        });
-        console.log(lastBox);
       break;
   }
 
@@ -396,20 +333,19 @@ Game.prototype.selectPrize = function(value) {
 Game.prototype.bankerOffer = function(array) {
   var sumMoney = 0;
 
-  for (var i = 0; i < array.length; i++) {
-    sumMoney += array[i];
-  }
-  var averageOnGameMoney = sumMoney / array.length;
-  var bankerOfferAmount = Math.floor(averageOnGameMoney * this.bankerMultiplier);
+  var lastsBoxes = [];
 
-  return bankerOfferAmount;
-};
-
-//Función que nos devuelve un array de premios no seleccionados
-Game.prototype.noSelectedBox = function() {
-  this.boxes.map(function(box) {
+  lastsBoxes = this.boxes.map(function(box) {
     return box.value;
   });
+
+  lastsBoxes.push(this.ownBox.value);
+
+  for (var i = 0; i < lastsBoxes.length; i++) {
+    sumMoney += lastsBoxes[i];
+  }
+  var averageOnGameMoney = Math.floor(sumMoney / lastsBoxes.length);
+  return averageOnGameMoney;
 };
 
 //Función pregunta banquero
@@ -444,7 +380,39 @@ Game.prototype.noDealAnswer = function() {
 Game.prototype.dealAnswer = function() {
   this.dealBtn.click(
     function() {
-      this.information.empty(); // Añadir texto
+      var lastsBoxes = this.boxes.map(function(box) {
+        return box.value;
+      });
+
+      if (this.bankerOffer(lastsBoxes) > this.ownBox.value) {
+        this.information
+          .empty()
+          .append(
+            $("<p></p>").text(
+              "¡¡¡Felicidades, has ganado al banquero!!! Has aceptado una oferta superior a tu caja elegida. Obtienes: " +
+                this.bankerOffer(lastsBoxes) +
+                " €!!! En tu caja número: " +
+                this.ownBox.id +
+                " contenía: " +
+                this.ownBox.value +
+                " €"
+            )
+          );
+      } else {
+        this.information
+        .empty()
+        .append(
+          $("<p></p>").text(
+            "Lo siento... te vas a casa con las manos vacías... has perdido contra la oferta del banquero de: " +
+              this.bankerOffer(lastsBoxes) +
+              " €. Tu caja número: " +
+              this.ownBox.id +
+              " contiene: " +
+              this.ownBox.value +
+              " €, superior a la oferta del banquero. Gracias por jugar."
+          )
+        );
+      }
       this.banker.empty();
       this.playAgainBtn.show();
       this.chosenBox.hide();
@@ -471,13 +439,72 @@ Game.prototype.playerOptions = function() {
   this.playAgain();
 };
 
-Game.prototype.switchBoxes = function() {};
+//Función de cambiar caja y abrirla
+Game.prototype.switchBoxes = function() {
+  this.switchBtn.click(
+    function() {
+      this.switchBtn.hide();
+      this.openBoxBtn.hide();
+      this.boxContainer.hide();
+      this.playAgainBtn.show();
 
-Game.prototype.shuffleBankerOffer = function(array) {
-  var numberPrizes = array.length;
-  numberPrizes = Math.floor(Math.random() * array.length);
+      var lastBoxValue = this.boxes.map(function(box) {
+        return box.value;
+      });
+      var lastBoxId = this.boxes.map(function(box) {
+        return box.id;
+      });
+      this.information
+        .empty()
+        .append(
+          $("<p></p>").text(
+            "Congratulations!!! Briefcase number: " +
+              lastBoxId +
+              " contains: " +
+              lastBoxValue +
+              " €!"
+          )
+        );
+    }.bind(this)
+  );
+};
 
-  return array[numberPrizes];
+//Función de abrir tu caja
+Game.prototype.openOwnBox = function() {
+  this.openBoxBtn.click(
+    function() {
+      this.switchBtn.hide();
+      this.openBoxBtn.hide();
+      this.boxContainer.hide();
+      this.playAgainBtn.show();
+
+      this.information
+        .empty()
+        .append(
+          $("<p></p>").text(
+            "Congratulations!!! Briefcase number: " +
+              this.ownBox.id +
+              " contains: " +
+              this.ownBox.value +
+              " €!"
+          )
+        );
+    }.bind(this)
+  );
+};
+
+//Función que presenta la oferta del banquero con el cálculo en cajas en juego
+Game.prototype.bankerAnouncement = function() {
+  var lastsBoxes = this.boxes.map(function(box) {
+    return box.value;
+  });
+
+  this.banker
+    .empty()
+    .append("<p></p>")
+    .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+
+  this.playerOptions();
 };
 
 //Función shuffle

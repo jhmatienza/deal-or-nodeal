@@ -106,8 +106,7 @@ span button {
 .no-deal-btn,
 .play-again-btn,
 .switch-boxes-btn,
-.open-boxes-btn,
-.banker-phone {
+.open-box-btn {
   display: none;
 }
 
