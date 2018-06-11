@@ -400,18 +400,18 @@ Game.prototype.dealAnswer = function() {
           );
       } else {
         this.information
-        .empty()
-        .append(
-          $("<p></p>").text(
-            "Lo siento... te vas a casa con las manos vacías... has perdido contra la oferta del banquero de: " +
-              this.bankerOffer(lastsBoxes) +
-              " €. Tu caja número: " +
-              this.ownBox.id +
-              " contiene: " +
-              this.ownBox.value +
-              " €, superior a la oferta del banquero. Gracias por jugar."
-          )
-        );
+          .empty()
+          .append(
+            $("<p></p>").text(
+              "Lo siento... te vas a casa con las manos vacías... has perdido contra la oferta del banquero de: " +
+                this.bankerOffer(lastsBoxes) +
+                " €. Tu caja número: " +
+                this.ownBox.id +
+                " contiene: " +
+                this.ownBox.value +
+                " €, superior a la oferta del banquero. Gracias por jugar."
+            )
+          );
       }
       this.banker.empty();
       this.playAgainBtn.show();
@@ -476,6 +476,7 @@ Game.prototype.openOwnBox = function() {
       this.switchBtn.hide();
       this.openBoxBtn.hide();
       this.boxContainer.hide();
+      this.chosenBox.hide();
       this.playAgainBtn.show();
 
       this.information
