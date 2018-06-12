@@ -344,6 +344,8 @@ Game.prototype.bankerQuestion = function() {
   this.noDealBtn.show();
   this.boxContainer.hide();
   this.bankerSound.play();
+  this.soundTheme.pause();
+  this.soundStart.pause();
 };
 
 //Función oferta banquero
