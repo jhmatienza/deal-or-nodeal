@@ -2,10 +2,9 @@
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  border: 1px solid red;
 }
 
-/* Pantalla de inicio */
+/* Pantalla general y de inicio*/
 
 .center {
   position: absolute;
@@ -16,8 +15,35 @@
   margin: auto;
 }
 
+#screen {
+  width: 1100px;
+  height: 700px;
+  background: url("../img/dealbackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-.btn-start {
+h1 {
+  display:block;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 60px auto;
+  padding: 5px;
+  background-color: black;
+  border: 4px solid yellow;
+}
+
+/* Botones */
+
+#deal-btn,
+#no-deal-btn,
+#play-again-btn,
+#switch-boxes-btn,
+#open-box-btn {
+  display: none;
+}
+
+.btn-yellow {
   display: block;
   margin: 0 auto;
   width: 200px;
@@ -31,15 +57,29 @@
   cursor: pointer;
 }
 
-#screen {
-  width: 1100px;
-  height: 700px;
-  background: url("../img/dealbackground.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+.btn-yellow:hover{
+  background-color: white;
+}
+.btn-black:hover{
+  background-color:red;
 }
 
-/* Pantalla de Player */
+.btn-black {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  background-color: black;
+  color: yellow;
+  font-size: 30px;
+  font-weight: bold;
+  border: 3px solid grey;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/*Posicionamento de elementos*/
 
 .column{
   display: flex;
@@ -59,17 +99,14 @@
   display: none;
 }
 
-#chosen-box {
-  width: 110px;
-  padding: 5px;
-  font-size: 20px;
-  font-family: sans-serif;
-  font-weight: bold;
-  background-color: grey;
-  display: none;
+.wrapper {
+  display: flex;
+  justify-content: space-between
 }
 
- .price {
+/* Panel de premios */
+
+.price {
   background: yellow;
   width: 140px;
   margin: 10px;
@@ -87,65 +124,15 @@
 }
 
 
-.briefcase-btn{
-  width: 80px;
-  height: 40px;
-  background-color: grey;
-  color: black;
+/* Panel de briefcases */
+
+#chosen-box {
+  width: 110px;
+  padding: 5px;
+  font-size: 20px;
   font-weight: bold;
-  font-size: 20px;
-  margin: 5px;
-}
-
-#banker-offer{
-  width: 600px;
-  height: 500px;
-  background: url("../img/dond_thebanker.jpg");
-  background-size: cover;
-  font-family: sans-serif;
-  font-size: 40px;
-  color:white;
+  background-color: grey;
   display: none;
-}
-
-
-.deal-btn,
-.no-deal-btn,
-.play-again-btn,
-.switch-boxes-btn,
-.open-box-btn {
-  display: none;
-}
-
-h1 {
-  display:block;
-  color: white;
-  font-family: 'Courier New', Courier, monospace;
-  margin: 60px auto;
-  padding: 5px;
-  background-color: black;
-  border: 4px solid yellow;
-}
-
-#information {
-  display:block;
-  color: white;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
-  padding: 5px;
-  background-color: black;
-  border: 4px solid yellow;
-  display: none;
-}
-
-/* p {
-  color: white;
-  font-size: 20px;
-  background-color: black;
-} */
-
-.information {
-  background-color: black;
 }
 
 .box {
@@ -165,7 +152,38 @@ h1 {
   padding: 10px;
   z-index: 99;
   color: black;
-  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   font-size: 20px;
+}
+
+.box:hover{
+  animation: mover 0.5s infinite  alternate;
+  background-color: yellow;
+}
+
+@keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+/* Paneles de información */
+
+#banker-offer{
+  width: 600px;
+  height: 500px;
+  background: url("../img/dond_thebanker.jpg");
+  background-size: cover;
+  font-size: 40px;
+  color:white;
+  display: none;
+}
+
+#information {
+  display:block;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  padding: 5px;
+  background-color: black;
+  border: 4px solid yellow;
+  display: none;
 }

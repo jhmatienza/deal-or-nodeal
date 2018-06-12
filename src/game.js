@@ -46,12 +46,14 @@ function Game(prizesContainer, boxContainer) {
   this.banker = $("#banker-offer");
 
   //Botones
-  this.dealBtn = $(".deal-btn");
-  this.noDealBtn = $(".no-deal-btn");
-  this.playAgainBtn = $(".play-again-btn");
-  this.openBoxBtn = $(".open-box-btn");
-  this.switchBtn = $(".switch-boxes-btn");
+  this.dealBtn = $("#deal-btn");
+  this.noDealBtn = $("#no-deal-btn");
+  this.playAgainBtn = $("#play-again-btn");
+  this.openBoxBtn = $("#open-box-btn");
+  this.switchBtn = $("#switch-boxes-btn");
 }
+
+//Funcion start que define los elementos al empezar el juego
 
 Game.prototype.start = function() {
   this.prizes = [];
@@ -74,6 +76,8 @@ Game.prototype.start = function() {
   this.draw();
 };
 
+//Codiciones de clicks en los briefcases
+
 Game.prototype.onClicBox = function(box) {
   switch (this.state) {
     case "init":
@@ -92,16 +96,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step1":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information
-        .empty()
-        .append(
-          $("<p></p>").text(
-            "Step1 - Caja elegida: " + box.id + " - Prize: " + box.value
-          )
-        );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step2";
@@ -115,14 +111,7 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step2":
-      this.removeBox(box);
-      this.selectPrize(box.value);
-
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step2 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
+      this.showBoxInformation(box);
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -134,14 +123,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step3":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step3 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step4";
@@ -152,14 +135,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step4":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step4 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step5";
@@ -170,14 +147,7 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step5":
-      this.removeBox(box);
-      this.selectPrize(box.value);
-
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step5 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
+      this.showBoxInformation(box);
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -190,14 +160,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step6":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step6 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step7";
@@ -208,14 +172,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step7":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step7 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step8";
@@ -226,14 +184,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step8":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step8 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.state = "step9";
@@ -244,14 +196,8 @@ Game.prototype.onClicBox = function(box) {
       break;
 
     case "step9":
-      this.removeBox(box);
-      this.selectPrize(box.value);
+      this.showBoxInformation(box);
 
-      this.information.empty().append(
-        $("<p></p>")
-          .empty()
-          .text("Step9 - Caja elegida: " + box.id + " - Prize: " + box.value)
-      );
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
         this.selectedBoxesCount = 1;
@@ -263,7 +209,7 @@ Game.prototype.onClicBox = function(box) {
           return box.id;
         });
         this.banker
-        .show()
+          .show()
           .empty()
           .append("<p></p>")
           .text("Banker's offer: " + this.bankerOffer(lastsBoxesValue) + " €");
@@ -280,7 +226,11 @@ Game.prototype.onClicBox = function(box) {
             this.banker.empty();
             this.information
               .empty()
-              .append($("<p></p>").text("Switch or open? Last briefcase on game: " + lastsBoxesNumber));
+              .append(
+                $("<p></p>").text(
+                  "Open or switch? Last briefcase on game: " + lastsBoxesNumber
+                )
+              );
 
             this.boxContainer.hide();
             this.switchBtn.show();
@@ -332,11 +282,28 @@ Game.prototype.selectPrize = function(value) {
   prize.isSelected = true;
 };
 
+//Función que borra la caja seleccionada, compara los premios y presenta la información de la caja seleccionada
+
+Game.prototype.showBoxInformation = function(box) {
+  this.removeBox(box);
+  this.selectPrize(box.value);
+
+  this.information
+    .empty()
+    .append(
+      $("<p></p>").text(
+        "Briefcase number: " + box.id + " - Contains: " + box.value + " €"
+      )
+    );
+};
+
 //Función oferta banquero
 Game.prototype.bankerOffer = function(array) {
   var sumMoney = 0;
 
   var lastsBoxes = [];
+
+  var bankerMultiplier = 0.9;
 
   lastsBoxes = this.boxes.map(function(box) {
     return box.value;
@@ -347,7 +314,8 @@ Game.prototype.bankerOffer = function(array) {
   for (var i = 0; i < lastsBoxes.length; i++) {
     sumMoney += lastsBoxes[i];
   }
-  var averageOnGameMoney = Math.floor((sumMoney / lastsBoxes.length) * 0.7);
+  var averageOnGameMoney = Math.floor((sumMoney / lastsBoxes.length) * bankerMultiplier);
+
   return averageOnGameMoney;
 };
 
@@ -392,11 +360,11 @@ Game.prototype.dealAnswer = function() {
           .empty()
           .append(
             $("<p></p>").text(
-              "¡¡¡Felicidades, has ganado al banquero!!! Has aceptado una oferta superior a tu caja elegida. Obtienes: " +
+              "CONGRATULATIONS, YOU BEAT THE BANKER!!! Your deal is better than your briefcase. YOU WIN: " +
                 this.bankerOffer(lastsBoxes) +
-                " €!!! En tu caja número: " +
+                " €!!! Your briefcase number: " +
                 this.ownBox.id +
-                " contenía: " +
+                " contains: " +
                 this.ownBox.value +
                 " €"
             )
@@ -406,13 +374,13 @@ Game.prototype.dealAnswer = function() {
           .empty()
           .append(
             $("<p></p>").text(
-              "Lo siento... te vas a casa con las manos vacías... has perdido contra la oferta del banquero de: " +
+              "OOOH SORRY!!! BAD DEAL!!! THE BANKER BEATS YOU!!! You win 0 €, but Keep fighting for your dreams... Banker's offer is: " +
                 this.bankerOffer(lastsBoxes) +
-                " €. Tu caja número: " +
+                " €. Your briefcase number: " +
                 this.ownBox.id +
-                " contiene: " +
+                " contains: " +
                 this.ownBox.value +
-                " €, superior a la oferta del banquero. Gracias por jugar."
+                " €, better than the Banker's offer. Thank you for playing!"
             )
           );
       }
