@@ -5,6 +5,10 @@ $(document).ready(function() {
 
   $('#btn-play').click(function() {
     $('#btn-play').hide();
+    $('#start-title').hide();
+    boxContainer.css("display","flex");
+    $('#information').show();
+    $('#chosen-box').show();
     game.start();
     
   });

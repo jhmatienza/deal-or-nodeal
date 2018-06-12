@@ -43,7 +43,7 @@ function Game(prizesContainer, boxContainer) {
   this.state = "init"; // init, => step1, step2, step3, step4
   this.chosenBox = $("#chosen-box");
   this.information = $("#information");
-  this.banker = $("#bankerOffer");
+  this.banker = $("#banker-offer");
 
   //Botones
   this.dealBtn = $(".deal-btn");
@@ -81,12 +81,10 @@ Game.prototype.onClicBox = function(box) {
       this.removeBox(box);
       this.information
         .empty()
-        .append($("<p></p>").text("Let's start!!! Open 6 briefcase"));
+        .append($("<p></p>").text("Let's start!!! OPEN 6 BRIEFCASES!!!"));
 
       this.chosenBox.append(
-        $("<p></p>")
-          .text("Your briefcase: " + this.ownBox.id)
-          .addClass("box")
+        $("<p></p>").text("Your briefcase: " + this.ownBox.id)
       );
 
       this.state = "step1";
@@ -258,13 +256,17 @@ Game.prototype.onClicBox = function(box) {
       if (this.selectedBoxesCount === 0) {
         this.selectedBoxesCount = 1;
 
-        var lastsBoxes = this.boxes.map(function(box) {
+        var lastsBoxesValue = this.boxes.map(function(box) {
           return box.value;
         });
+        var lastsBoxesNumber = this.boxes.map(function(box) {
+          return box.id;
+        });
         this.banker
+        .show()
           .empty()
           .append("<p></p>")
-          .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
+          .text("Banker's offer: " + this.bankerOffer(lastsBoxesValue) + " €");
 
         this.bankerQuestion();
 
@@ -278,8 +280,9 @@ Game.prototype.onClicBox = function(box) {
             this.banker.empty();
             this.information
               .empty()
-              .append($("<p></p>").text("Switch or open?"));
-            this.boxContainer.show();
+              .append($("<p></p>").text("Switch or open? Last briefcase on game: " + lastsBoxesNumber));
+
+            this.boxContainer.hide();
             this.switchBtn.show();
             this.openBoxBtn.show();
             this.dealBtn.hide();
@@ -344,7 +347,7 @@ Game.prototype.bankerOffer = function(array) {
   for (var i = 0; i < lastsBoxes.length; i++) {
     sumMoney += lastsBoxes[i];
   }
-  var averageOnGameMoney = Math.floor(sumMoney / lastsBoxes.length);
+  var averageOnGameMoney = Math.floor((sumMoney / lastsBoxes.length) * 0.7);
   return averageOnGameMoney;
 };
 
@@ -359,7 +362,7 @@ Game.prototype.bankerQuestion = function() {
 Game.prototype.noDealAnswer = function() {
   this.noDealBtn.click(
     function() {
-      this.banker.empty();
+      this.banker.hide().empty();
       this.information
         .empty()
         .append(
@@ -413,7 +416,7 @@ Game.prototype.dealAnswer = function() {
             )
           );
       }
-      this.banker.empty();
+      this.banker.hide().empty();
       this.playAgainBtn.show();
       this.chosenBox.hide();
       this.dealBtn.hide();
@@ -501,6 +504,7 @@ Game.prototype.bankerAnouncement = function() {
   });
 
   this.banker
+    .show()
     .empty()
     .append("<p></p>")
     .text("Banker's offer: " + this.bankerOffer(lastsBoxes) + " €");
