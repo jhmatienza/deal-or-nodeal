@@ -51,6 +51,12 @@ function Game(prizesContainer, boxContainer) {
   this.playAgainBtn = $("#play-again-btn");
   this.openBoxBtn = $("#open-box-btn");
   this.switchBtn = $("#switch-boxes-btn");
+
+  this.soundStart = new Audio("sounds/took_good_deal.mp3");
+  this.soundTheme = new Audio("sounds/correct_answer_10.mp3");
+  this.openBoxSound = new Audio("sounds/audience_answered.mp3");
+  this.bankerSound = new Audio("sounds/present_question.mp3");
+  this.dealSound = new Audio("sounds/offered_big_deal.mp3");
 }
 
 //Funcion start que define los elementos al empezar el juego
@@ -71,6 +77,8 @@ Game.prototype.start = function() {
     );
   }
 
+  this.soundStart.play();
+
   this.information.append($("<p></p>").text("Choose your lucky briefcase!"));
 
   this.draw();
@@ -86,6 +94,8 @@ Game.prototype.onClicBox = function(box) {
       this.information
         .empty()
         .append($("<p></p>").text("Let's start!!! OPEN 6 BRIEFCASES!!!"));
+      
+      this.openBoxSound.play();
 
       this.chosenBox.append(
         $("<p></p>").text("Your briefcase: " + this.ownBox.id)
@@ -97,6 +107,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step1":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -112,6 +123,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step2":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -124,6 +136,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step3":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -136,6 +149,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step4":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -148,6 +162,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step5":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -161,6 +176,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step6":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -173,6 +189,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step7":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -185,6 +202,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step8":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -197,6 +215,7 @@ Game.prototype.onClicBox = function(box) {
 
     case "step9":
       this.showBoxInformation(box);
+      this.openBoxSound.play();
 
       this.selectedBoxesCount--;
       if (this.selectedBoxesCount === 0) {
@@ -324,6 +343,7 @@ Game.prototype.bankerQuestion = function() {
   this.dealBtn.show();
   this.noDealBtn.show();
   this.boxContainer.hide();
+  this.bankerSound.play();
 };
 
 //Función oferta banquero
@@ -343,6 +363,7 @@ Game.prototype.noDealAnswer = function() {
       this.boxContainer.show();
       this.dealBtn.hide();
       this.noDealBtn.hide();
+      this.soundTheme.play();
     }.bind(this)
   );
 };
@@ -391,6 +412,7 @@ Game.prototype.dealAnswer = function() {
       this.noDealBtn.hide();
       this.prizesContainer.hide();
       this.boxContainer.hide();
+      this.dealSound.play();
     }.bind(this)
   );
 };
@@ -418,6 +440,8 @@ Game.prototype.switchBoxes = function() {
       this.openBoxBtn.hide();
       this.boxContainer.hide();
       this.playAgainBtn.show();
+
+      this.dealSound.play();
 
       var lastBoxValue = this.boxes.map(function(box) {
         return box.value;
@@ -449,6 +473,8 @@ Game.prototype.openOwnBox = function() {
       this.boxContainer.hide();
       this.chosenBox.hide();
       this.playAgainBtn.show();
+
+      this.dealSound.play();
 
       this.information
         .empty()
